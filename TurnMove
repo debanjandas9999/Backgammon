@@ -1,0 +1,308 @@
+package debback2;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.Random;
+
+public class TurnMove extends Checker { // class to paint dice and access it
+
+	Random rand = new Random();
+	Random rand2 = new Random();
+	int CHOICE = 1;
+	public int CHOICE2 = 2;
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+//		Random rand = new Random();
+//		Random rand2 = new Random();
+//		int CHOICE = rand.nextInt(6) + 1;
+//		int CHOICE2 = rand2.nextInt(6) + 1;
+
+//		while (CHOICE == CHOICE2)
+//		{
+//			CHOICE = rand.nextInt(6) + 1;
+//			CHOICE2 = rand2.nextInt(6) + 1;
+//		}
+//		setChoice(CHOICE);
+//		setChoice1(CHOICE2);
+		dice1(g, CHOICE);
+		dice2(g, CHOICE2);
+		System.out.println("This is " + CHOICE);
+		System.out.println("Ths is 2: " + CHOICE2);
+
+	}
+
+	public void setDiceValues(int choice1, int choice2) {
+		System.out.println(" Change ?:" + CHOICE);
+		System.out.println(" Change ?:" + CHOICE2);
+		CHOICE = choice1;
+		CHOICE2 = choice2;
+	}
+
+	public int getChoice() {
+		System.out.println(CHOICE);
+		return CHOICE;
+
+	}
+
+	public int getChoice2() {
+		return CHOICE2;
+	}
+
+	private void dice2(Graphics g, int choice2) { // paints dice 2
+		// TODO Auto-generated method stub
+		// Random rand = new Random();
+		// int CHOICE = rand.nextInt(6) + 1;
+
+		switch (choice2) {
+		case 1:
+			g.drawRect(540, 210, 30, 30);
+			g.setColor(Color.WHITE);
+			g.fillRect(540, 210, 30, 30);
+
+			g.drawOval(551, 221, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(551, 221, 7, 7);
+			break;
+
+		case 2:
+			g.drawRect(540, 210, 30, 30);
+			g.setColor(Color.WHITE);
+			g.fillRect(540, 210, 30, 30);
+
+			g.drawOval(545, 215, 8, 8);
+			g.setColor(Color.BLACK);
+			g.fillOval(545, 215, 8, 8);
+
+			g.drawOval(556, 226, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(556, 226, 7, 7);
+			break;
+
+		case 3:
+			g.drawRect(540, 210, 30, 30);
+			g.setColor(Color.WHITE);
+			g.fillRect(540, 210, 30, 30);
+
+			g.drawOval(543, 213, 8, 8);
+			g.setColor(Color.BLACK);
+			g.fillOval(543, 213, 8, 8);
+
+			g.drawOval(551, 221, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(551, 221, 7, 7);
+
+			g.drawOval(559, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(559, 229, 7, 7);
+			break;
+
+		case 4:
+			g.drawRect(540, 210, 30, 30);
+			g.setColor(Color.WHITE);
+			g.fillRect(540, 210, 30, 30);
+
+			g.drawOval(543, 213, 8, 8);
+			g.setColor(Color.BLACK);
+			g.fillOval(543, 213, 8, 8);
+
+			g.drawOval(559, 213, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(559, 213, 7, 7);
+
+			g.drawOval(559, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(559, 229, 7, 7);
+
+			g.drawOval(543, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(543, 229, 7, 7);
+			break;
+
+		case 5:
+			g.drawRect(540, 210, 30, 30);
+			g.setColor(Color.WHITE);
+			g.fillRect(540, 210, 30, 30);
+
+			g.drawOval(543, 213, 8, 8);
+			g.setColor(Color.BLACK);
+			g.fillOval(543, 213, 8, 8);
+
+			g.drawOval(559, 213, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(559, 213, 7, 7);
+
+			g.drawOval(551, 221, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(551, 221, 7, 7);
+
+			g.drawOval(559, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(559, 229, 7, 7);
+
+			g.drawOval(543, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(543, 229, 7, 7);
+			break;
+
+		case 6:
+			g.drawRect(540, 210, 30, 30);
+			g.setColor(Color.WHITE);
+			g.fillRect(540, 210, 30, 30);
+
+			g.drawOval(543, 213, 8, 8);
+			g.setColor(Color.BLACK);
+			g.fillOval(543, 213, 8, 8);
+
+			g.drawOval(543, 221, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(543, 221, 7, 7);
+
+			g.drawOval(559, 213, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(559, 213, 7, 7);
+
+			g.drawOval(559, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(559, 229, 7, 7);
+
+			g.drawOval(559, 221, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(559, 221, 7, 7);
+
+			g.drawOval(543, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(543, 229, 7, 7);
+			break;
+
+		}
+	}
+
+	public void dice1(Graphics g, int choice1) { // paints dice 1
+
+		switch (choice1) {
+		case 1:
+			g.drawRect(170, 210, 30, 30);
+			g.setColor(Color.WHITE);
+			g.fillRect(170, 210, 30, 30);
+
+			g.drawOval(181, 221, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(181, 221, 7, 7);
+			break;
+
+		case 2:
+			g.drawRect(170, 210, 30, 30);
+			g.setColor(Color.WHITE);
+			g.fillRect(170, 210, 30, 30);
+
+			g.drawOval(175, 215, 8, 8);
+			g.setColor(Color.BLACK);
+			g.fillOval(175, 215, 8, 8);
+
+			g.drawOval(186, 226, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(186, 226, 7, 7);
+			break;
+
+		case 3:
+			g.drawRect(170, 210, 30, 30);
+			g.setColor(Color.WHITE);
+			g.fillRect(170, 210, 30, 30);
+
+			g.drawOval(173, 213, 8, 8);
+			g.setColor(Color.BLACK);
+			g.fillOval(173, 213, 8, 8);
+
+			g.drawOval(181, 221, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(181, 221, 7, 7);
+
+			g.drawOval(189, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(189, 229, 7, 7);
+			break;
+
+		case 4:
+			g.drawRect(170, 210, 30, 30);
+			g.setColor(Color.WHITE);
+			g.fillRect(170, 210, 30, 30);
+
+			g.drawOval(173, 213, 8, 8);
+			g.setColor(Color.BLACK);
+			g.fillOval(173, 213, 8, 8);
+
+			g.drawOval(189, 213, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(189, 213, 7, 7);
+
+			g.drawOval(189, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(189, 229, 7, 7);
+
+			g.drawOval(173, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(173, 229, 7, 7);
+			break;
+
+		case 5:
+			g.drawRect(170, 210, 30, 30);
+			g.setColor(Color.WHITE);
+			g.fillRect(170, 210, 30, 30);
+
+			g.drawOval(173, 213, 8, 8);
+			g.setColor(Color.BLACK);
+			g.fillOval(173, 213, 8, 8);
+
+			g.drawOval(189, 213, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(189, 213, 7, 7);
+
+			g.drawOval(181, 221, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(181, 221, 7, 7);
+
+			g.drawOval(189, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(189, 229, 7, 7);
+
+			g.drawOval(173, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(173, 229, 7, 7);
+			break;
+
+		case 6:
+			g.drawRect(170, 210, 30, 30);
+			g.setColor(Color.WHITE);
+			g.fillRect(170, 210, 30, 30);
+
+			g.drawOval(173, 213, 8, 8);
+			g.setColor(Color.BLACK);
+			g.fillOval(173, 213, 8, 8);
+
+			g.drawOval(173, 221, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(173, 221, 7, 7);
+
+			g.drawOval(189, 213, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(189, 213, 7, 7);
+
+			g.drawOval(189, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(189, 229, 7, 7);
+
+			g.drawOval(189, 221, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(189, 221, 7, 7);
+
+			g.drawOval(173, 229, 7, 7);
+			g.setColor(Color.BLACK);
+			g.fillOval(173, 229, 7, 7);
+			break;
+
+		}
+	}
+
+}
