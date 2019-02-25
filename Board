@@ -1,0 +1,29 @@
+package debback2;
+
+public class Board {
+
+	int PLAYERS = 2;
+	int PIP = 26;
+	int[][] ar = new int[PLAYERS][PIP];
+
+	public Board() {
+
+		int INITIAL1[] = { 0, 0, 0, 0, 0, 0, 5, 0, 3, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0 };
+		int INITIAL2[] = { 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, 0, 0 };
+
+		for (int i = 0; i < PIP; i++)
+			ar[0][i] = INITIAL1[i];
+
+		for (int j = 0; j < PIP; j++)
+			ar[1][j] = INITIAL2[j];
+
+	}
+
+	public int[][] getArray() {
+		return ar;
+	}
+
+}
+
+	   
+		
