@@ -15,7 +15,7 @@ public class Checker extends JPanel {
 		PIP = pip;
 	}
 
-	public void paintComponent(Graphics g) { // paints the checker
+	public void paintComponent(Graphics g) { // paints the checkers
 
 		if (FLAG == 0) {
 			Board board = new Board();
