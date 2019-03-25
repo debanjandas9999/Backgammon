@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.text.DefaultCaret;
 
-public class InfoPanel extends JPanel { // shows all the instructions in the infopanel
+public class InfoPanel extends JPanel { // shows all instructions in the infopanel
 
 	private static final long serialVersionUID = 1L;
 
