@@ -197,7 +197,7 @@ public class Backgammon {
 
 			int r1 = randi.nextInt(6) + 1;
 			int r2 = randy.nextInt(6) + 1;
-
+			
 			if (FLAG == 0) {
 				while (r1 == r2) {
 					r1 = randi.nextInt(6) + 1;
@@ -987,7 +987,7 @@ public class Backgammon {
 			public void run() {
 				try {
 					Backgammon window = new Backgammon();
-					// window.frame3.setVisible(true);
+				
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -996,4 +996,5 @@ public class Backgammon {
 
 	}
 }
+
 
