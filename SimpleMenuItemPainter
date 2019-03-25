@@ -31,7 +31,7 @@ public class SimpleMenuItemPainter implements MenuItemPainter {
 	}
 
 	protected void paintBackground(Graphics2D g2d, Rectangle bounds, Color background, Color foreground) {
-		g2d.setColor(background);
+		g2d.setColor(background); // sets the colour
 		g2d.fill(bounds);
 		g2d.setColor(foreground);
 		g2d.draw(bounds);
