@@ -1,11 +1,10 @@
-//Author - Shrey rastogi, Kabir Guglani, Debanjan Das 
 package debback2;
 
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-public class UI {
+public class UI { // Declares the class UI
 
 	private static final int FRAME_WIDTH = 1000;
 
