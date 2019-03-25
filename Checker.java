@@ -7,17 +7,15 @@ import javax.swing.JPanel;
 
 public class Checker extends JPanel {
 
-	// private Graphics g;
-	// public Checker()
-	static int FLAG = 0;
 	int PIP;
+	static int FLAG = 0;
+	private int[][] arra;
 
-	// Game board = new Game();
-	private int[][] arra; // = board.getARR();
+	public Checker(int pip) {
+		PIP = pip;
+	}
 
-	// public Graphics g;
-
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) { // paints the checker
 
 		if (FLAG == 0) {
 			Board board = new Board();
@@ -53,9 +51,10 @@ public class Checker extends JPanel {
 			numberPip2(g);
 		else if (PIP == 0)
 			numberPip1(g);
+
 	}
 
-	private void numberPip2(Graphics g) { // paints the numbers on the board
+	private void numberPip2(Graphics g) { // paints the numbers
 		// TODO Auto-generated method stub
 		g.drawString("24", 680, 450);
 		g.drawString("23", 630, 450);
@@ -85,7 +84,7 @@ public class Checker extends JPanel {
 
 	}
 
-	private void numberPip1(Graphics g) {
+	private void numberPip1(Graphics g) { // Paints the numbers the other way
 		// TODO Auto-generated method stub
 		g.drawString("1", 680, 450);
 		g.drawString("2", 630, 450);
@@ -114,18 +113,19 @@ public class Checker extends JPanel {
 		g.drawString("13", 40, 30);
 	}
 
-	private void drawCheckers(Graphics g) { // paints the checkers
+	private void drawCheckers(Graphics g) { // paints all the checkers in required positions
 		// TODO Auto-generated method stub
+
 		Color colour;
 		for (int i = 0; i < 2; i++) {
-			int xl = 665;
+			int xl = 720;
 			int xu = 29;
 
 			if (i == 0)
 				colour = Color.GRAY;
 			else
 				colour = Color.GREEN;
-			for (int b = 1; b < 25; b++) {
+			for (int b = 0; b <= 25; b++) {
 				int j = arra[i][b];
 
 				int yl = 400;
@@ -134,6 +134,32 @@ public class Checker extends JPanel {
 				if (b <= 12) {
 					if (b == 7)
 						xl = xl - 53;
+
+					if (b == 0 && i == 0) {
+						int xb = 720;
+						int yb = 425;
+						while (j != 0) {
+							g.drawOval(xb, yb, 55, 10);
+							g.setColor(colour);
+							g.fillOval(xb, yb, 55, 10);
+
+							yb = yb - 10;
+							j--;
+						}
+					}
+
+					if (b == 0 && i == 1) {
+						int xb = 720;
+						int yb = 35;
+						while (j != 0) {
+							g.drawOval(xb, yb, 55, 10);
+							g.setColor(colour);
+							g.fillOval(xb, yb, 55, 10);
+
+							yb = yb + 10;
+							j--;
+						}
+					}
 
 					while (j != 0) {
 						g.drawOval(xl, yl, radius, radius);
@@ -149,6 +175,30 @@ public class Checker extends JPanel {
 				else {
 					if (b == 19)
 						xu = xu + 53;
+					if (b == 25 && i == 0) {
+						int xb = 347;
+						int yb = 325;
+						while (j != 0) {
+							g.drawOval(xb, yb, radius, radius);
+							g.setColor(colour);
+							g.fillOval(xb, yb, radius, radius);
+
+							yb = yb - 35;
+							j--;
+						}
+					}
+					if (b == 25 && i == 1) {
+						int xb = 347;
+						int yb = 70;
+						while (j != 0) {
+							g.drawOval(xb, yb, radius, radius);
+							g.setColor(colour);
+							g.fillOval(xb, yb, radius, radius);
+
+							yb = yb + 35;
+							j--;
+						}
+					}
 					while (j != 0) {
 						g.drawOval(xu, yu, radius, radius);
 						g.setColor(colour);
@@ -162,7 +212,6 @@ public class Checker extends JPanel {
 				}
 			}
 		}
-
 	}
 
 	private void drawPipsUP(Graphics g) {
@@ -255,3 +304,4 @@ public class Checker extends JPanel {
 	}
 
 }
+
