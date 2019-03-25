@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class CommandPanel extends JPanel { // commandpanel to take commands from the user
+public class CommandPanel extends JPanel { // commandpanel to take commands from user
 
 	private static final long serialVersionUID = 1L;
 
