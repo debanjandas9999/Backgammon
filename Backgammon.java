@@ -324,4 +324,612 @@ public class Backgammon {
 						}
 
 					}
+					
+					if (rollnext > 0) {
+						Random ra = new Random();
+						Random ran = new Random();
+
+						r1 = ra.nextInt(6) + 1;
+						r2 = ran.nextInt(6) + 1;
+					}
+
+					rollnext++;
+
+					System.out.println("control double= " + control_double);
+					System.out.println("cube number= " + cube_number);
+					TurnMove tu = new TurnMove(INDEX, r1, r2, control_double, cube_number);
+					frame.add(tu);
+					int roll_1 = tu.getChoice();
+					int roll_2 = tu.getChoice2();
+
+					frame.validate();
+
+					Game g = new Game();
+					int arr[][];
+					arr = g.getARR();
+
+					FLAG++;
+
+					int next_move = 0;
+					System.out.println("roll1" + roll_1);
+					System.out.println("roll2" + roll_2);
+
+					if (roll_1 == roll_2) {
+
+						for (int d = 0; d < 4; d++) {
+							int hy = 1;
+							int hen = 24;
+							int sumen = 0;
+							int sumy = 0;
+
+							for (int i = 0; i <= 6; i++) {
+								sumy = sumy + arr[0][i];
+							}
+							for (int j = 19; j <= 24; j++) {
+								sumen = sumen + arr[1][j];
+							}
+							sumen = sumen + arr[1][0];
+
+							if (sumy == 15) {
+								hy = 0;
+							}
+							if (sumen == 15) {
+								hen = 25;
+							}
+							String st[] = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+									"", "", "", "", "", "", "" };
+							int s = 0;
+							if (INDEX == 0) {
+
+								for (int x = 1; x <= 25; x++) {
+									if (arr[0][x] > 0) {
+										for (int m = 1; m <= 4 - d; m++) {
+											if (x - (roll_1 * m) >= hy) {
+												if (hy == 0 && x - (roll_1 * m) == 0) {
+													st[s] = Integer.toString(x) + " " + "Off";
+													s++;
+												} else {
+
+													if (arr[1][x - (roll_1 * m)] == 0) {
+														if (x == 25) {
+															st[s] = "Bar " + Integer.toString(x - (roll_1 * m));
+															s++;
+														} else {
+															st[s] = Integer.toString(x) + " "
+																	+ Integer.toString(x - (roll_1 * m));
+															s++;
+														}
+													}
+
+													else if (arr[1][x - (roll_1 * m)] == 1) {
+														if (x == 25) {
+															st[s] = "Bar " + Integer.toString(x - (roll_1 * m)) + "*";
+															s++;
+														} else {
+															st[s] = Integer.toString(x) + " "
+																	+ Integer.toString(x - (roll_1 * m)) + "*";
+															s++;
+														}
+													}
+												}
+											}
+										}
+
+									}
+								}
+							} else {
+								for (int x = 24; x > 0; x--) {
+
+									if (arr[1][x] > 0) {
+										for (int n = 1; n <= 4 - d; n++) {
+											if (x + (roll_1 * n) <= hen) {
+												if (hen == 25 && x + (roll_1 * n) == 25) {
+													st[s] = Integer.toString(25 - x) + " " + "Off";
+													s++;
+												} else {
+													if (arr[0][x + (roll_1 * n)] == 0) {
+														st[s] = Integer.toString(25 - x) + " "
+																+ Integer.toString(25 - (x + (roll_1 * n)));
+														s++;
+													} else if (arr[0][x + (roll_1 * n)] == 1) {
+														st[s] = Integer.toString(25 - x) + " "
+																+ Integer.toString(25 - (x + (roll_1 * n))) + "*";
+														s++;
+													}
+												}
+											}
+										}
+
+									}
+
+								}
+
+								if (arr[1][25] > 0) {
+									for (int k = 1; k <= 4 - d; k++) {
+										if (roll_1 * k <= 24) {
+											if (arr[0][roll_1 * k] == 0) {
+												st[s] = "Bar " + Integer.toString(25 - (roll_1 * k));
+												s++;
+											} else if (arr[0][roll_1 * k] == 1) {
+												st[s] = "Bar " + Integer.toString(25 - (roll_1 * k)) + "*";
+												s++;
+											}
+
+										}
+
+									}
+								}
+							}
+
+							if (s == 0) {
+								infoPanel.addText("\n");
+								infoPanel.addText("There are no moves available---CHANCE SKIPS!!");
+								break;
+
+							}
+							char c = 'A';
+							if (d == 0) {
+								for (int y = 0; y < s; y++) {
+									infoPanel.addText(c + ": " + st[y]);
+									c++;
+								}
+							}
+							int start_pip;
+							int end_pip;
+
+							do {
+								if (d != 0) {
+									infoPanel.addText("Enter the next move from the given possible moves");
+									c = 'A';
+									for (int y = 0; y < s; y++) {
+										infoPanel.addText(c + ": " + st[y]);
+										c++;
+									}
+								}
+
+								String move1;
+								if (s == 1) {
+									move1 = "A";
+									infoPanel.addText("Only one move is possible, FORCED PLAY");
+								} else
+									move1 = commandPanel.getCommand();
+
+								if (move1.equalsIgnoreCase("Quit")) {
+
+									frame.dispose();
+									frame2.dispose();
+									frame3.dispose();
+									System.exit(0);
+
+								}
+
+								char alpha1 = move1.charAt(0);
+								int arrnum1 = 0;
+
+								if (alpha1 >= 65 && alpha1 <= 90)
+									arrnum1 = alpha1 - 65;
+								else if (alpha1 >= 97 && alpha1 <= 122)
+									arrnum1 = alpha1 - 97;
+
+								if (arrnum1 >= s) {
+									infoPanel.addText("Enter move again");
+									continue;
+								}
+
+								String m = st[arrnum1];
+								if (m.charAt(m.length() - 1) == '*')
+									m = m.substring(0, m.length() - 1);
+
+								int space_INDEX = m.indexOf(' ');
+								String first_move = m.substring(0, space_INDEX);
+								String second_move = m.substring(space_INDEX + 1);
+
+								if (first_move.equalsIgnoreCase("Bar")) {
+									start_pip = 25;
+									end_pip = Integer.parseInt(m.substring(space_INDEX + 1));
+								} else if (second_move.equalsIgnoreCase("Off")) {
+									start_pip = Integer.parseInt(m.substring(0, space_INDEX));
+									end_pip = 0;
+								} else {
+									start_pip = Integer.parseInt(m.substring(0, space_INDEX));
+									end_pip = Integer.parseInt(m.substring(space_INDEX + 1));
+								}
+
+								if (INDEX == 1) {
+									start_pip = 25 - start_pip;
+									end_pip = 25 - end_pip;
+								}
+
+								Game game1 = new Game(start_pip, end_pip);
+								if (game1.isValid(INDEX) == true)
+									break;
+								else
+									infoPanel.addText("Enter move again");
+
+							} while (true);
+							if (INDEX == 0) {
+								if (start_pip - end_pip == (roll_1 * 2))
+									d = d + 1;
+								else if (start_pip - end_pip == (roll_1 * 3))
+									d = d + 2;
+								else if (start_pip - end_pip == (roll_1 * 4))
+									d = d + 3;
+							} else {
+								if (end_pip - start_pip == (roll_1 * 2))
+									d = d + 1;
+								else if (end_pip - start_pip == (roll_1 * 3))
+									d = d + 2;
+								else if (end_pip - start_pip == (roll_1 * 4))
+									d = d + 3;
+							}
+
+							Game game = new Game();
+
+							if (start_pip > end_pip) {
+								for (int i = start_pip; i > end_pip; i--) {
+
+									int ar[][] = game.getARR();
+									if (end_pip != 0 && ar[1][end_pip] > 0)
+										game.updateArray(1, end_pip, 25);
+									game.updateArray(INDEX, i, i - 1);
+									Checker check = new Checker(INDEX);
+
+									frame.add(check);
+									frame.validate();
+								}
+							} else {
+								for (int i = start_pip; i < end_pip; i++) {
+
+									int ar[][] = game.getARR();
+									if (end_pip == 25) {
+										if (i == 24) {
+											game.updateArray(INDEX, 24, 0);
+											i++;
+										}
+									}
+									if (i == 0) {
+										game.updateArray(INDEX, 25, i + 1);
+										i++;
+									}
+									if (end_pip != 25 && ar[0][end_pip] > 0)
+										game.updateArray(0, end_pip, 25);
+									if (i < end_pip)
+										game.updateArray(INDEX, i, i + 1);
+									Checker check = new Checker(INDEX);
+									frame.add(check);
+									frame.validate();
+								}
+							}
+							int ta[][] = game.getARR();
+							if (ta[0][0] == 15) {
+								win = 0;
+								break;
+							}
+							if (ta[1][0] == 15) {
+								win = 1;
+								break;
+							}
+						}
+						if (win == 1 || win == 0)
+							break;
+					} else {
+
+						for (int z = 0; z < 2; z++) {
+							int hy = 1;
+							int hen = 24;
+							int sumen = 0;
+							int sumy = 0;
+
+							for (int i = 0; i <= 6; i++) {
+								sumy = sumy + arr[0][i];
+							}
+							for (int j = 19; j <= 24; j++) {
+								sumen = sumen + arr[1][j];
+							}
+
+							sumen = sumen + arr[1][0];
+
+							if (sumy == 15) {
+								hy = 0;
+							}
+							if (sumen == 15) {
+								hen = 25;
+							}
+
+							String st[] = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+									"", "", "", "", "", "", "" };
+							int s = 0;
+							if (INDEX == 0) {
+
+								for (int x = 1; x <= 25; x++) {
+									if (z == 0) {
+										if (arr[0][x] > 0) {
+
+											if (x - roll_1 >= hy) {
+												if (hy == 0 && x - roll_1 == 0) {
+													st[s] = Integer.toString(x) + " " + "Off";
+													s++;
+												} else {
+
+													if (arr[1][x - roll_1] == 0) {
+														if (x == 25) {
+															st[s] = "Bar " + Integer.toString(x - roll_1);
+															s++;
+														} else {
+															st[s] = Integer.toString(x) + " "
+																	+ Integer.toString(x - roll_1);
+															s++;
+														}
+													}
+
+													else if (arr[1][x - roll_1] == 1) {
+														if (x == 25) {
+															st[s] = "Bar " + Integer.toString(x - roll_1) + "*";
+															s++;
+														} else {
+															st[s] = Integer.toString(x) + " "
+																	+ Integer.toString(x - roll_1) + "*";
+															s++;
+														}
+													}
+												}
+											}
+
+											if (x - roll_2 >= hy) {
+												if (hy == 0 && x - roll_2 == 0) {
+													st[s] = Integer.toString(x) + " " + "Off";
+													s++;
+												} else {
+
+													if (arr[1][x - roll_2] == 0) {
+														if (x == 25) {
+															st[s] = "Bar " + Integer.toString(x - roll_2);
+															s++;
+														} else {
+															st[s] = Integer.toString(x) + " "
+																	+ Integer.toString(x - roll_2);
+															s++;
+														}
+													}
+
+													else if (arr[1][x - roll_2] == 1) {
+														if (x == 25) {
+															st[s] = "Bar " + Integer.toString(x - roll_2) + "*";
+															s++;
+														} else {
+															st[s] = Integer.toString(x) + " "
+																	+ Integer.toString(x - roll_2) + "*";
+															s++;
+														}
+													}
+												}
+											}
+
+											if (x - roll_1 - roll_2 >= hy) {
+												if (hy == 0 && x - roll_1 - roll_2 == 0) {
+													st[s] = Integer.toString(x) + " " + "Off";
+													s++;
+												} else {
+													if (arr[1][x - roll_1 - roll_2] == 0) {
+														if (x == 25) {
+															st[s] = "Bar " + Integer.toString(x - roll_1 - roll_2);
+															s++;
+														} else {
+															st[s] = Integer.toString(x) + " "
+																	+ Integer.toString(x - roll_1 - roll_2);
+															s++;
+														}
+													} else if (arr[1][x - roll_1 - roll_2] == 1) {
+														if (x == 25) {
+															st[s] = "Bar " + Integer.toString(x - roll_1 - roll_2)
+																	+ "*";
+															s++;
+														} else {
+															st[s] = Integer.toString(x) + " "
+																	+ Integer.toString(x - roll_1 - roll_2) + "*";
+															s++;
+														}
+													}
+												}
+
+											}
+										}
+									} else if (z == 1) {
+										if (arr[0][x] > 0) {
+											if (x - next_move >= hy) {
+												if (hy == 0 && x - next_move == 0) {
+													st[s] = Integer.toString(x) + " " + "Off";
+													s++;
+												} else {
+													if (arr[1][x - next_move] == 0) {
+														if (x == 25) {
+															st[s] = "Bar " + Integer.toString(x - next_move);
+															s++;
+														} else {
+															st[s] = Integer.toString(x) + " "
+																	+ Integer.toString(x - next_move);
+															s++;
+														}
+													} else if (arr[1][x - next_move] == 1) {
+														if (x == 25) {
+															st[s] = "Bar " + Integer.toString(x - next_move) + "*";
+															s++;
+														} else {
+															st[s] = Integer.toString(x) + " "
+																	+ Integer.toString(x - next_move) + "*";
+															s++;
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							} else {
+								for (int x = 24; x > 0; x--) {
+									if (z == 0) {
+
+										if (arr[1][x] > 0) {
+											if (x + roll_1 <= hen) {
+												if (hen == 25 && x + roll_1 == 25) {
+													st[s] = Integer.toString(25 - x) + " " + "Off";
+													s++;
+												} else {
+													if (arr[0][x + roll_1] == 0) {
+														st[s] = Integer.toString(25 - x) + " "
+																+ Integer.toString(25 - (x + roll_1));
+														s++;
+													} else if (arr[0][x + roll_1] == 1) {
+														st[s] = Integer.toString(25 - x) + " "
+																+ Integer.toString(25 - (x + roll_1)) + "*";
+														s++;
+													}
+												}
+											}
+
+											if (x + roll_2 <= hen) {
+												if (hen == 25 && x + roll_2 == 25) {
+													st[s] = Integer.toString(25 - x) + " " + "Off";
+													s++;
+												} else {
+													if (arr[0][x + roll_2] == 0) {
+														st[s] = Integer.toString(25 - x) + " "
+																+ Integer.toString(25 - (x + roll_2));
+														s++;
+													} else if (arr[0][x + roll_2] == 1) {
+														st[s] = Integer.toString(25 - x) + " "
+																+ Integer.toString(25 - (x + roll_2)) + "*";
+														s++;
+													}
+												}
+											}
+											if (x + roll_2 + roll_1 <= hen) {
+												if (hen == 25 && x + roll_1 + roll_2 == 25) {
+													st[s] = Integer.toString(25 - x) + " " + "Off";
+													s++;
+												} else {
+													if (arr[0][x + roll_2 + roll_1] == 0) {
+														st[s] = Integer.toString(25 - x) + " "
+																+ Integer.toString(25 - (x + roll_2 + roll_1));
+														s++;
+													} else if (arr[0][x + roll_1 + roll_2] == 1) {
+														st[s] = Integer.toString(25 - x) + " "
+																+ Integer.toString(25 - (x + roll_2 + roll_1)) + "*";
+														s++;
+													}
+												}
+											}
+										}
+									} else if (z == 1) {
+										if (arr[1][x] > 0) {
+
+											if (x + next_move <= hen) {
+												if (hen == 25 && x + next_move == 25) {
+													st[s] = Integer.toString(25 - x) + " " + "Off";
+													s++;
+												} else {
+													if (arr[0][x + next_move] == 0) {
+														st[s] = Integer.toString(25 - x) + " "
+																+ Integer.toString(25 - (x + next_move));
+														s++;
+													} else if (arr[0][x + next_move] == 1) {
+														st[s] = Integer.toString(25 - x) + " "
+																+ Integer.toString(25 - (x + next_move)) + "*";
+														s++;
+													}
+												}
+											}
+										}
+									}
+								}
+								if (z == 0) {
+
+									if (arr[1][25] > 0) {
+										if (roll_1 <= 24) {
+											if (arr[0][roll_1] == 0) {
+												st[s] = "Bar " + Integer.toString(25 - roll_1);
+												s++;
+											} else if (arr[0][roll_1] == 1) {
+												st[s] = "Bar " + Integer.toString(25 - roll_1) + "*";
+												s++;
+											}
+										}
+
+										if (roll_2 <= 24) {
+											if (arr[0][roll_2] == 0) {
+												st[s] = "Bar " + Integer.toString(25 - roll_2);
+												s++;
+											} else if (arr[0][roll_2] == 1) {
+												st[s] = "Bar " + Integer.toString(25 - roll_2) + "*";
+												s++;
+											}
+										}
+										if (roll_2 + roll_1 <= 24) {
+											if (arr[0][roll_2 + roll_1] == 0) {
+												st[s] = "Bar " + Integer.toString(25 - (roll_2 + roll_1));
+												s++;
+											} else if (arr[0][roll_1 + roll_2] == 1) {
+												st[s] = "Bar " + Integer.toString(25 - (roll_2 + roll_1)) + "*";
+												s++;
+											}
+										}
+									}
+								} else if (z == 1) {
+									if (arr[1][25] > 0) {
+										if (next_move <= 24) {
+											if (arr[0][next_move] == 0) {
+												st[s] = "Bar " + Integer.toString(25 - next_move);
+												s++;
+											} else if (arr[0][next_move] == 1) {
+												st[s] = "Bar " + Integer.toString(25 - next_move) + "*";
+												s++;
+											}
+										}
+									}
+								}
+
+							}
+
+							if (s == 0) {
+								infoPanel.addText("\n");
+								infoPanel.addText("There are no moves available---CHANCE SKIPS!!");
+								break;
+
+							}
+							char c = 'A';
+							if (z == 0) {
+								for (int y = 0; y < s; y++) {
+									infoPanel.addText(c + ": " + st[y]);
+									c++;
+								}
+							}
+							int start_pip;
+							int end_pip;
+							System.out.println("ff");
+
+							do {
+								if (z == 1) {
+									infoPanel.addText("Enter the second move from the given possible moves");
+									c = 'A';
+									for (int y = 0; y < s; y++) {
+										infoPanel.addText(c + ": " + st[y]);
+										c++;
+									}
+								}
+
+								String move;
+								if (s == 1) {
+									move = "A";
+									infoPanel.addText("Only one move is possible, FORCED PLAY");
+								} else
+									move = commandPanel.getCommand();
+
+								if (move.equalsIgnoreCase("Quit")) {
+
+									frame.dispose();
+									frame2.dispose();
+									frame3.dispose();
+									System.exit(0);
+
+								}
 
