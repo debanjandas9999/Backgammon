@@ -932,4 +932,321 @@ public class Backgammon {
 									System.exit(0);
 
 								}
+								
+								char alpha = move.charAt(0);
+								int arrnum = 0;
+
+								if (alpha >= 65 && alpha <= 90)
+									arrnum = alpha - 65;
+								else if (alpha >= 97 && alpha <= 122)
+									arrnum = alpha - 97;
+
+								if (arrnum >= s) {
+									infoPanel.addText("Enter move again");
+									continue;
+								}
+
+								String m = st[arrnum];
+								if (m.charAt(m.length() - 1) == '*')
+									m = m.substring(0, m.length() - 1);
+
+								int space_INDEX = m.indexOf(' ');
+
+								String first_move = m.substring(0, space_INDEX);
+								String second_move = m.substring(space_INDEX + 1);
+
+								if (first_move.equalsIgnoreCase("Bar")) {
+									start_pip = 25;
+									end_pip = Integer.parseInt(m.substring(space_INDEX + 1));
+								} else if (second_move.equalsIgnoreCase("Off")) {
+									start_pip = Integer.parseInt(m.substring(0, space_INDEX));
+									end_pip = 0;
+								} else {
+									start_pip = Integer.parseInt(m.substring(0, space_INDEX));
+									end_pip = Integer.parseInt(m.substring(space_INDEX + 1));
+								}
+
+								if (INDEX == 1) {
+									start_pip = 25 - start_pip;
+									end_pip = 25 - end_pip;
+								}
+
+								if (INDEX == 0 && z == 1 && next_move != start_pip - end_pip) {
+									infoPanel.addText("Not a valid move");
+									continue;
+								} else if (INDEX == 1 && z == 1 && next_move != end_pip - start_pip) {
+									infoPanel.addText("Not a valid move");
+									continue;
+								}
+								Game game1 = new Game(start_pip, end_pip);
+								if (game1.isValid(INDEX) == true)
+									break;
+								else
+									infoPanel.addText("Enter move again");
+
+							} while (true);
+							if (INDEX == 0) {
+								if (start_pip - end_pip == roll_1)
+									next_move = roll_2;
+								else if (start_pip - end_pip == roll_2)
+									next_move = roll_1;
+								else if (start_pip - end_pip == roll_1 + roll_2)
+									z++;
+							} else {
+								if (end_pip - start_pip == roll_1)
+									next_move = roll_2;
+								else if (end_pip - start_pip == roll_2)
+									next_move = roll_1;
+								else if (end_pip - start_pip == roll_1 + roll_2)
+									z++;
+							}
+
+							Game game = new Game();
+
+							if (start_pip > end_pip) {
+								for (int i = start_pip; i > end_pip; i--) {
+
+									int ar[][] = game.getARR();
+									if (end_pip != 0 && ar[1][end_pip] > 0)
+										game.updateArray(1, end_pip, 25);
+									game.updateArray(INDEX, i, i - 1);
+									Checker check = new Checker(INDEX);
+
+									frame.add(check);
+									frame.validate();
+								}
+							} else {
+								for (int i = start_pip; i < end_pip; i++) {
+
+									int ar[][] = game.getARR();
+									if (end_pip == 25) {
+										if (i == 24) {
+											game.updateArray(INDEX, 24, 0);
+											i++;
+										}
+									}
+									if (i == 0) {
+										game.updateArray(INDEX, 25, i + 1);
+										i++;
+									}
+									if (end_pip != 25 && ar[0][end_pip] > 0)
+										game.updateArray(0, end_pip, 25);
+									if (i < end_pip)
+										game.updateArray(INDEX, i, i + 1);
+									Checker check = new Checker(INDEX);
+									frame.add(check);
+									frame.validate();
+								}
+
+							}
+							int ta[][] = game.getARR();
+							if (ta[0][0] == 15) {
+								win = 0;
+								if (grey_player == 1)
+									Player1_points = Player1_points + cube_number;
+								else if (grey_player == 2)
+									Player2_points = Player2_points + cube_number;
+								break;
+							}
+							if (ta[1][0] == 15) {
+								win = 1;
+								if (green_player == 1)
+									Player1_points = Player1_points + cube_number;
+								else if (green_player == 2)
+									Player2_points = Player2_points + cube_number;
+								break;
+							}
+
+						}
+						if (win == 1 || win == 0)
+							break;
+
+					}
+					flag++;
+
+					infoPanel.addText("Enter next/cheat/quit for the other player's turn");
+					get = commandPanel.getCommand();
+
+					if (!get.equalsIgnoreCase("next") && !get.equalsIgnoreCase("cheat")
+							&& !get.equalsIgnoreCase("quit")) {
+						infoPanel.addText("Invalid Input, Enter Again");
+						get = commandPanel.getCommand();
+					}
+
+					Game gg = new Game(9, 9);
+					int arrr[][] = gg.getARR();
+
+					if (get.equalsIgnoreCase("Quit")) {
+
+						frame.dispose();
+						frame2.dispose();
+						frame3.dispose();
+						System.exit(0);
+
+					}
+					if (get.equalsIgnoreCase("cheat")) {
+
+						for (int i = 1; i <= 24; i++) {
+							if (arrr[0][i] > 0) {
+								int mm = arrr[0][i];
+								for (int k = 1; k <= mm; k++) {
+									gg.updateArray(0, i, 25);
+
+								}
+							}
+						}
+
+						for (int j = 1; j <= 13; j++) {
+							gg.updateArray(0, 25, 0);
+						}
+						gg.updateArray(0, 25, 1);
+						gg.updateArray(0, 25, 1);
+
+						for (int x = 1; x <= 24; x++) {
+							if (arrr[1][x] > 0) {
+								int mm = arrr[1][x];
+								for (int k = 1; k <= mm; k++) {
+									gg.updateArray(1, x, 25);
+
+								}
+							}
+						}
+
+						for (int j = 1; j <= 13; j++) {
+							gg.updateArray(1, 25, 0);
+						}
+						gg.updateArray(1, 25, 24);
+						gg.updateArray(1, 25, 24);
+
+						get = "next";
+					}
+
+				} while (get.equalsIgnoreCase("next"));
+
+				if (win == 1) {
+					if (green_player == 1)
+						infoPanel.addText("Winner is " + FIRST_PLAYER);
+					else
+						infoPanel.addText("Winner is " + SECOND_PLAYER);
+				} else if (win == 0) {
+					if (grey_player == 1)
+						infoPanel.addText("Winner is " + FIRST_PLAYER);
+					else
+						infoPanel.addText("Winner is " + SECOND_PLAYER);
+				}
+
+				infoPanel.addText("\n");
+				infoPanel.addText("SCORE UPDATE");
+				infoPanel.addText(FIRST_PLAYER + "--------- " + Player1_points);
+				infoPanel.addText(SECOND_PLAYER + "--------- " + Player2_points);
+				infoPanel.addText("\n");
+				infoPanel.addText("\n");
+
+				Game gl = new Game(9, 9);
+				int arrr[][] = gl.getARR();
+
+				for (int i = 1; i <= 25; i++) {
+					if (arrr[0][i] > 0) {
+						int mm = arrr[0][i];
+						for (int k = 1; k <= mm; k++) {
+							gl.updateArray(0, i, 0);
+						}
+					}
+				}
+
+				for (int i = 1; i <= 5; i++)
+					gl.updateArray(0, 0, 6);
+
+				for (int i = 1; i <= 3; i++)
+					gl.updateArray(0, 0, 8);
+
+				for (int i = 1; i <= 5; i++)
+					gl.updateArray(0, 0, 13);
+
+				for (int i = 1; i <= 2; i++)
+					gl.updateArray(0, 0, 24);
+
+				for (int i = 1; i <= 25; i++) {
+					if (arrr[1][i] > 0) {
+						int mm = arrr[1][i];
+						for (int k = 1; k <= mm; k++) {
+							gl.updateArray(1, i, 0);
+						}
+					}
+				}
+
+				for (int i = 1; i <= 2; i++)
+					gl.updateArray(1, 0, 1);
+
+				for (int i = 1; i <= 5; i++)
+					gl.updateArray(1, 0, 12);
+
+				for (int i = 1; i <= 3; i++)
+					gl.updateArray(1, 0, 17);
+
+				for (int i = 1; i <= 5; i++)
+					gl.updateArray(1, 0, 19);
+
+				if (Player1_points >= point) {
+					infoPanel.addText("MATCH WINNER IS " + FIRST_PLAYER);
+					break;
+				}
+
+				else if (Player2_points >= point) {
+					infoPanel.addText("MATCH WINNER IS " + SECOND_PLAYER);
+					break;
+				}
+
+				infoPanel.addText("Do you wish to play another game Y/N?");
+				String ans = commandPanel.getCommand();
+
+				if (!ans.equalsIgnoreCase("y") && !ans.equalsIgnoreCase("n")) {
+					infoPanel.addText("Invalid Input, Enter Again");
+					ans = commandPanel.getCommand();
+				}
+
+				if (ans.equalsIgnoreCase("y"))
+					continue;
+				else
+					break;
+
+			}
+			match++;
+
+			infoPanel.addText("\n");
+			infoPanel.addText("Do you wish to play a new match Y/N?");
+			String ans = commandPanel.getCommand();
+
+			if (!ans.equalsIgnoreCase("y") && !ans.equalsIgnoreCase("n")) {
+				infoPanel.addText("Invalid Input, Enter Again");
+				ans = commandPanel.getCommand();
+			}
+
+			if (ans.equalsIgnoreCase("y"))
+				continue;
+			else
+				break;
+
+		}
+
+		frame.revalidate();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		frame.revalidate();
+		frame.repaint();
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Backgammon window = new Backgammon();
+					// window.frame3.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+	}
+}
+
 
