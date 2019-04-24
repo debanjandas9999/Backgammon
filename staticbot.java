@@ -84,7 +84,7 @@ public class staticbot implements BotAPI {
 	}
 
 	public boolean numloneRanger(int ar[][]) {
-		// child2 = board.get();
+		
 		for (int i = 1; i < 26; i++) {
 			if (ar[me.getId()][i] == 1)
 				return false;
@@ -95,7 +95,7 @@ public class staticbot implements BotAPI {
 	public boolean prime(int newar[][], int prear[][]) {
 		int newcount = 0;
 		int count = 0;
-//  child2 = board.get();
+
 
 		for (int i = 1; i < 26; i++) {
 			if (newar[me.getId()][i] == 1)
@@ -121,23 +121,14 @@ public class staticbot implements BotAPI {
 			if (newarr[me.getId()][i] == 1)
 				newcount++;
 		}
-//  System.out.println("newcount "+ newcount);
-//  for(int g=1;g<26;g++)
-//  {
-//	  System.out.print(newarr[me.getId()][g]+" ");
-//  }
-//  
+
 
 		for (int i = 1; i < 26; i++) {
 			if (prearr[me.getId()][i] == 1)
 				count++;
 		}
 
-//  System.out.println("count "+ count);
-//  for(int g=1;g<26;g++)
-//  {
-//	  System.out.print(prearr[me.getId()][g]+" ");
-//  }
+
 
 		if (newcount == count)
 			return true;
@@ -170,11 +161,7 @@ public class staticbot implements BotAPI {
 		}
 
 		int arr[][] = move(me, fro, to, nar);
-//  System.out.println("in fumo");
-//  for(int g=1;g<26;g++)
-//  {
-//	  System.out.print(arr[me.getId()][g]+" ");
-//  }
+
 		if (futurePrime(arr, ar) == true)
 			return 1;
 		else
@@ -192,8 +179,7 @@ public class staticbot implements BotAPI {
 
 	public String formingPrimes(Plays possiblePlays) {
 		for (int i = 0; i < possiblePlays.number(); i++) {
-			// child2 = board.get();
-			// System.out.println(child2);
+			
 			String play = possiblePlays.get(i).toString();
 			System.out.println(play);
 			x = play.split("\\s+");
@@ -285,16 +271,7 @@ public class staticbot implements BotAPI {
 					// System.out.println(x[j]);
 				}
 
-//		    if (x[j].length() >= 4) 
-//		    {
-//			     if (x[j].substring(x[j].length() - 3).equalsIgnoreCase("Off"))
-//			     {
-//			    	 x[j] = (x[j].substring(0, x[j].length() - 3)).concat("0");
-//			    	//  System.out.println(x[j]);
-//			     }
-//		    }
-				// x[j] = x[j].replace('Bar', '0');
-				// x[j] = x[j].replace('Bar', '0');
+
 				for (int p = 0; p < x[j].length(); p++) {
 					if (x[j].charAt(x[j].length() - 1) == '@') {
 						x[j] = x[j].substring(0, x[j].length() - 1);
@@ -313,8 +290,7 @@ public class staticbot implements BotAPI {
 						else if (t > 0)
 							max[i][j] += hit_score;
 
-//				      System.out.println("from "+ from);
-//				      System.out.println("to " + to);
+
 						updarr = hitmove(me, from, to, child3);
 					}
 					if (x[j].charAt(p) == '@') {
@@ -384,7 +360,7 @@ public class staticbot implements BotAPI {
 			for (int j = 0; j < 1000; j++) {
 				if (maximum == max[i][j])
 					st = Integer.toString(i + 1);
-//      System.out.println(st);
+
 			}
 		}
 		return st;
