@@ -202,4 +202,153 @@ public class staticbot implements BotAPI {
 		}
 		return "false";
 	}
+	
+	public String getCommand(Plays possiblePlays) {
+		int d0;
+		int d1;
+		int flag = 0;
+		String from, to;
+		String st = "";
+		to = " ";
+		from = "";
+		double max[][] = new double[1000][1000];
+		double maximum = max[0][0];
+		if (isFirstMove()) {
+			System.out.println("true");
+			Dice di = me.getDuplicateDice();
+			Dice di2 = opponent.getDuplicateDice();
+
+			child2 = board.get();
+			child3 = board.get();
+			int Reset[] = { 0, 0, 0, 0, 0, 0, 5, 0, 3, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0 };
+			for (int i = 0; i < 26; i++) {
+				if (child2[opponent.getId()][i] != Reset[i])
+					flag = 1;
+			}
+
+			if (flag == 1) {
+				d0 = di.getDie(0);
+				d1 = di.getDie(1);
+			} else {
+				d0 = di.getDie(0);
+				d1 = di2.getDie(0);
+			}
+
+			System.out.println("d0 = " + d0);
+			System.out.println("d1 = " + d1);
+
+			if (d0 - d1 == 5 || d1 - d0 == 5) {
+				System.out.println("inside 5 ");
+				for (int i = 0; i < possiblePlays.number(); i++) {
+					String play = possiblePlays.get(i).toString();
+					System.out.println(play);
+					x = play.split("\\s+");
+					if ((x[0].substring(x[0].indexOf('-') + 1)).equals((x[1].substring(x[1].indexOf('-') + 1))))
+						return Integer.toString(i + 1);
+				}
+			}
+
+			if (d0 - d1 == 2 || d1 - d0 == 2) {
+				System.out.println("inside 2 ");
+				for (int i = 0; i < possiblePlays.number(); i++) {
+					String play = possiblePlays.get(i).toString();
+					System.out.println(play);
+					x = play.split("\\s+");
+					if ((x[0].substring(x[0].indexOf('-') + 1)).equals((x[1].substring(x[1].indexOf('-') + 1))))
+						return Integer.toString(i + 1);
+
+				}
+			}
+		}
+
+		for (int i = 0; i < possiblePlays.number(); i++) {
+			System.out.println("LENGTH =" + possiblePlays.number());
+			child2 = board.get();
+			// System.out.println(child2);
+			String play = possiblePlays.get(i).toString();
+			x = play.split("\\s+");
+
+			int updarr[][] = board.get();
+			for (int j = 0; j < x.length; j++) {
+				System.out.println(x[j]);
+				x[j] = x[j].replace('-', '@');
+				x[j] = x[j].replace('*', '@');
+				// System.out.println(x[j]);
+
+				if (x[j].substring(0, 3).equalsIgnoreCase("Bar")) {
+					x[j] = "25".concat(x[j].substring(3));
+					// System.out.println(x[j]);
+				}
+
+				if (x[j].substring(x[j].indexOf('@') + 1).equalsIgnoreCase("Off")) {
+					x[j] = (x[j].substring(0, x[j].indexOf('@') + 1)).concat("0");
+					// System.out.println(x[j]);
+				}
+
+//		    if (x[j].length() >= 4) 
+//		    {
+//			     if (x[j].substring(x[j].length() - 3).equalsIgnoreCase("Off"))
+//			     {
+//			    	 x[j] = (x[j].substring(0, x[j].length() - 3)).concat("0");
+//			    	//  System.out.println(x[j]);
+//			     }
+//		    }
+				// x[j] = x[j].replace('Bar', '0');
+				// x[j] = x[j].replace('Bar', '0');
+				for (int p = 0; p < x[j].length(); p++) {
+					if (x[j].charAt(x[j].length() - 1) == '@') {
+						x[j] = x[j].substring(0, x[j].length() - 1);
+						from = x[j].substring(0, x[j].indexOf('@'));
+						to = x[j].substring(x[j].indexOf('@') + 1);
+
+						int t = Integer.parseInt(to);
+						// System.out.println(x[j]);
+						int hit_score = hit();
+						if (t > 18)
+							max[i][j] += hit_score + 8;
+						else if (t > 12)
+							max[i][j] += hit_score + 6;
+						else if (t > 6)
+							max[i][j] += hit_score + 4;
+						else if (t > 0)
+							max[i][j] += hit_score;
+
+//				      System.out.println("from "+ from);
+//				      System.out.println("to " + to);
+						updarr = hitmove(me, from, to, child3);
+					}
+					if (x[j].charAt(p) == '@') {
+						from = x[j].substring(0, p);
+						to = x[j].substring(p + 1, x[j].length());
+
+						int t = Integer.parseInt(to);
+
+						if (to.equals("0"))
+							max[i][j] += 2;
+						else {
+							if (numloneRanger(updarr) == false) {
+								int d = loneRanger(from, to, updarr);
+								if (d == 1)
+									max[i][j] += 3;
+							}
+						}
+
+						if (max[i][j] > 0)
+							max[i][j] += 1;
+						else
+							max[i][j] = 1;
+
+						// max[i][j] = my_pipcount(child3);
+						int off_score = off(to);
+
+						if (off_score == 10)
+							max[i][j] += 10;
+
+						int bar_score = bar(from);
+
+						if (bar_score == 3)
+							max[i][j] += 3;
+
+						max[i][j] += primeBoardScore(me, updarr);
+
 
