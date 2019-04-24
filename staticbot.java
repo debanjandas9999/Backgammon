@@ -350,5 +350,144 @@ public class staticbot implements BotAPI {
 							max[i][j] += 3;
 
 						max[i][j] += primeBoardScore(me, updarr);
+						
+						int de = futureMove(from, to, updarr);
+						if (de == 1)
+							max[i][j] += 2;
+
+						if (updarr[me.getId()][t] > 5)
+							max[i][j] = 1;
+
+						updarr = move(me, from, to, child2);
+
+					}
+				}
+				System.out.print(i);
+				System.out.println(": " + max[i][j]);
+			}
+		}
+
+		for (int i = 0; i < 1000; i++) {
+			for (int j = 0; j < 1000; j++) {
+				max[i][0] = max[i][0] + max[i][j];
+			}
+		}
+
+		for (int i = 0; i < 1000; i++) {
+			for (int j = 0; j < 1000; j++) {
+				if (max[i][j] > maximum)
+					maximum = max[i][j];
+			}
+		}
+
+		for (int i = 0; i < 1000; i++) {
+			for (int j = 0; j < 1000; j++) {
+				if (maximum == max[i][j])
+					st = Integer.toString(i + 1);
+//      System.out.println(st);
+			}
+		}
+		return st;
+	}
+
+	public int[][] move(PlayerAPI player, String from, String to, int b[][]) {
+		int fr = Integer.parseInt(from);
+		int t = Integer.parseInt(to);
+		b[player.getId()][fr]--;
+		b[player.getId()][t]++;
+
+		if (t < Board.BAR && t > Board.BEAR_OFF && b[opponent.getId()][calculateOpposingPip(t)] == 1) {
+			b[opponent.getId()][calculateOpposingPip(t)]--;
+			b[opponent.getId()][Board.BAR]++;
+		}
+		return b;
+	}
+
+	private int calculateOpposingPip(int pip) {
+		return Board.NUM_PIPS - pip + 1;
+	}
+
+	public int[][] hitmove(PlayerAPI player, String from, String to, int b[][]) {
+		int fr = Integer.parseInt(from);
+		int t = Integer.parseInt(to);
+		b[player.getId()][fr]--;
+		b[player.getId()][t]++;
+		b[opponent.getId()][25 - t]--;
+		b[opponent.getId()][25]++;
+		return b;
+	}
+
+	public void winPercent() {
+
+		int duplicate[][] = board.get();
+		int mycount = 0;
+		int oppocount = 0;
+
+		for (int i = 1; i < 25; i++) {
+			if (duplicate[me.getId()][i] == 1)
+				mycount++;
+		}
+
+		for (int i = 1; i < 25; i++) {
+			if (duplicate[opponent.getId()][i] == 1)
+				oppocount++;
+		}
+
+		double mypipcount = my_pipcount();
+		double opppipcount = opp_pipcount();
+
+		if (mypipcount < opppipcount) {
+			if (opppipcount - mypipcount >= 45)
+				win = 4;
+			else if (opppipcount - mypipcount >= 20 && opppipcount - mypipcount <= 45) {
+				if (oppocount - mycount >= 3)
+					win = 4;
+				else
+					win = 3;
+			} else if (opppipcount - mypipcount >= 0 && opppipcount - mypipcount <= 20)
+				win = 3;
+
+		} else if (mypipcount > opppipcount) {
+			if (mypipcount - opppipcount >= 45)
+				win = 1;
+			else if (mypipcount - opppipcount >= 20 && mypipcount - opppipcount <= 45) {
+				if (mycount - oppocount >= 3)
+					win = 1;
+				else
+					win = 2;
+			}
+
+			else if (mypipcount - opppipcount >= 0 && mypipcount - opppipcount <= 20)
+				win = 2;
+		}
+
+		else
+			win = 2;
+	}
+
+	private int primeBoardScore(PlayerAPI player, int[][] boardCopy) {
+		int counter = 0;
+		for (int i = 1; i <= 24; i++) {
+			int primeLength = 0;
+			int j = i;
+			while (boardCopy[player.getId()][j] >= 2) {
+				primeLength++;
+				j++;
+			}
+			counter += Math.pow(2, primeLength);
+		}
+		return counter;
+	}
+
+	public String getDoubleDecision() {
+		winPercent();
+
+		if (win >= 2)
+			return "y";
+		else
+			return "n";
+	}
+}
+
 
 
